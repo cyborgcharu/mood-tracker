@@ -99,13 +99,13 @@ const MoodTracker = () => {
 
   return (
     <div className="container mx-auto max-w-4xl px-4 py-8">
-        <div className="mb-8">
-            <WeatherDisplay />
-        </div>
-        <Card className="w-full bg-zinc-900 text-white border-zinc-800">
-            <CardHeader className="pb-4 px-6">
-                <CardTitle className="text-3xl">Daily Mood Tracker</CardTitle>
-            </CardHeader>
+      <div className="mb-8">
+        <WeatherDisplay />
+      </div>
+      <Card className="w-full bg-zinc-900 text-white border-zinc-800">
+        <CardHeader className="pt-6 pb-4 px-6">
+          <CardTitle className="text-3xl">Daily Mood Tracker</CardTitle>
+        </CardHeader>
 
         <CardContent className="px-6 pb-6">
           <div className="flex flex-col space-y-8">
