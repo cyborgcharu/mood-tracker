@@ -6,9 +6,12 @@ module.exports = {
     './components/**/*.{js,jsx}',
     './app/**/*.{js,jsx}',
     './src/**/*.{js,jsx}',
-	],
+  ],
   theme: {
     extend: {
+      borderColor: {
+        border: 'hsl(var(--border))',
+      },
       keyframes: {
         rain: {
           '0%': { transform: 'translateY(0) scale(1)', opacity: 0 },
@@ -33,4 +36,5 @@ module.exports = {
       }
     },
   },
+  plugins: [require("tailwindcss-animate")],
 }

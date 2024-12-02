@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Smile, Meh, Frown, Sun, Cloud, CloudRain, Moon, Undo, Trash2 } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import WeatherDisplay from './WeatherDisplay';
 
 const MoodTracker = () => {

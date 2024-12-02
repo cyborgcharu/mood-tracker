@@ -15,11 +15,10 @@
     "next": "^14.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "recharts": "^2.13.3",
-    "tailwind-merge": "^2.5.5"
+    "tailwind-merge": "^2.5.5",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@shadcn/ui": "^0.0.4",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "postcss": "^8",
