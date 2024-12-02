@@ -1,3 +1,4 @@
+// components/MoodTracker.js
 "use client"
 
 import React, { useState, useEffect } from 'react';
@@ -98,13 +99,13 @@ const MoodTracker = () => {
 
   return (
     <div className="container mx-auto max-w-4xl px-4 py-8">
-      <Card className="w-full bg-zinc-900 text-white border-zinc-800">
-        <CardHeader className="pb-4 px-6">
-          <div className="flex justify-between items-center">
-            <CardTitle className="text-3xl">Daily Mood Tracker</CardTitle>
+        <div className="mb-8">
             <WeatherDisplay />
-          </div>
-        </CardHeader>
+        </div>
+        <Card className="w-full bg-zinc-900 text-white border-zinc-800">
+            <CardHeader className="pb-4 px-6">
+                <CardTitle className="text-3xl">Daily Mood Tracker</CardTitle>
+            </CardHeader>
 
         <CardContent className="px-6 pb-6">
           <div className="flex flex-col space-y-8">
