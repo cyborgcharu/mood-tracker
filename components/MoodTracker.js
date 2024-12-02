@@ -6,28 +6,40 @@ import { Smile, Meh, Frown, Sun, Cloud, CloudRain, Moon } from 'lucide-react';
 
 const MoodTracker = () => {
   const [entries, setEntries] = useState([]);
+  const [currentEntry, setCurrentEntry] = useState({ mood: null, time: null });
   
   const moods = [
-    { icon: Smile, label: 'Happy', color: 'text-green-500 hover:bg-green-100' },
-    { icon: Meh, label: 'Neutral', color: 'text-yellow-500 hover:bg-yellow-100' },
-    { icon: Frown, label: 'Sad', color: 'text-blue-500 hover:bg-blue-100' }
+    { icon: Smile, label: 'Happy', color: 'text-green-500' },
+    { icon: Meh, label: 'Neutral', color: 'text-yellow-500' },
+    { icon: Frown, label: 'Sad', color: 'text-blue-500' }
   ];
   
   const times = [
-    { icon: Sun, label: 'Morning', color: 'text-orange-500 hover:bg-orange-100' },
-    { icon: Cloud, label: 'Afternoon', color: 'text-gray-500 hover:bg-gray-100' },
-    { icon: CloudRain, label: 'Evening', color: 'text-indigo-500 hover:bg-indigo-100' },
-    { icon: Moon, label: 'Night', color: 'text-purple-500 hover:bg-purple-100' }
+    { icon: Sun, label: 'Morning', color: 'text-orange-500' },
+    { icon: Cloud, label: 'Afternoon', color: 'text-gray-500' },
+    { icon: CloudRain, label: 'Evening', color: 'text-blue-400' },
+    { icon: Moon, label: 'Night', color: 'text-purple-500' }
   ];
 
-  const addEntry = (mood, time) => {
-    const now = new Date();
+  const handleMoodSelect = (mood) => {
+    const newEntry = { ...currentEntry, mood };
+    setCurrentEntry(newEntry);
+    if (newEntry.time) saveEntry(newEntry);
+  };
+
+  const handleTimeSelect = (time) => {
+    const newEntry = { ...currentEntry, time };
+    setCurrentEntry(newEntry);
+    if (newEntry.mood) saveEntry(newEntry);
+  };
+
+  const saveEntry = (entry) => {
     setEntries([{
-      mood,
-      time,
-      timestamp: now,
-      id: now.getTime()
-    }, ...entries]); // Add to start of array instead of end
+      ...entry,
+      timestamp: new Date(),
+      id: Date.now()
+    }, ...entries]);
+    setCurrentEntry({ mood: null, time: null });
   };
 
   const formatTime = (date) => {
@@ -51,11 +63,13 @@ const MoodTracker = () => {
               {moods.map(({ icon: Icon, label, color }) => (
                 <button
                   key={label}
-                  onClick={() => addEntry(label, null)}
-                  className={`flex flex-col items-center p-4 rounded-xl transition-all transform hover:scale-105 bg-zinc-800 ${color}`}
+                  onClick={() => handleMoodSelect(label)}
+                  className={`flex flex-col items-center p-4 rounded-xl transition-all 
+                    ${currentEntry.mood === label ? 'ring-2 ring-offset-2 ring-offset-zinc-900 ring-' + color.split('-')[1]} 
+                    bg-zinc-800 hover:bg-zinc-700`}
                 >
-                  <Icon size={32} className="mb-2" />
-                  <span className="text-sm font-medium">{label}</span>
+                  <Icon size={32} className={`mb-2 ${color}`} />
+                  <span className={`text-sm font-medium ${color}`}>{label}</span>
                 </button>
               ))}
             </div>
@@ -66,11 +80,13 @@ const MoodTracker = () => {
               {times.map(({ icon: Icon, label, color }) => (
                 <button
                   key={label}
-                  onClick={() => addEntry(null, label)}
-                  className={`flex flex-col items-center p-4 rounded-xl transition-all transform hover:scale-105 bg-zinc-800 ${color}`}
+                  onClick={() => handleTimeSelect(label)}
+                  className={`flex flex-col items-center p-4 rounded-xl transition-all
+                    ${currentEntry.time === label ? 'ring-2 ring-offset-2 ring-offset-zinc-900 ring-' + color.split('-')[1]} 
+                    bg-zinc-800 hover:bg-zinc-700`}
                 >
-                  <Icon size={24} className="mb-2" />
-                  <span className="text-sm font-medium">{label}</span>
+                  <Icon size={24} className={`mb-2 ${color}`} />
+                  <span className={`text-sm font-medium ${color}`}>{label}</span>
                 </button>
               ))}
             </div>
@@ -86,17 +102,13 @@ const MoodTracker = () => {
                 className="p-4 bg-zinc-800 rounded-lg flex items-center justify-between hover:bg-zinc-700 transition-colors"
               >
                 <div className="flex items-center space-x-2">
-                  {entry.mood && (
-                    <span className={`font-medium ${moods.find(m => m.label === entry.mood)?.color}`}>
-                      {entry.mood}
-                    </span>
-                  )}
-                  {entry.mood && entry.time && <span className="text-zinc-500">•</span>}
-                  {entry.time && (
-                    <span className={`font-medium ${times.find(t => t.label === entry.time)?.color}`}>
-                      {entry.time}
-                    </span>
-                  )}
+                  <span className={moods.find(m => m.label === entry.mood)?.color}>
+                    {entry.mood}
+                  </span>
+                  <span className="text-zinc-500">•</span>
+                  <span className={times.find(t => t.label === entry.time)?.color}>
+                    {entry.time}
+                  </span>
                 </div>
                 <span className="text-sm text-zinc-400">{formatTime(entry.timestamp)}</span>
               </div>
