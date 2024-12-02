@@ -3,7 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Smile, Meh, Frown, Sun, Cloud, CloudRain, Moon, Undo, Trash2 } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import WeatherDisplay from './WeatherDisplay';
+/* import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+ */
 
 const MoodTracker = () => {
   const [entries, setEntries] = useState([]);
@@ -187,7 +189,7 @@ const MoodTracker = () => {
             </div>
           </div>
 
-          {/* Mood Stats */}
+          {/* Mood Stats
           {entries.length > 0 && (
             <div className="space-y-4">
               <h3 className="text-xl font-medium text-zinc-200">Mood Distribution</h3>
@@ -202,7 +204,7 @@ const MoodTracker = () => {
                 </ResponsiveContainer>
               </div>
             </div>
-          )}
+          )} */}
 
           {/* Recent Entries */}
           <div className="space-y-4">
