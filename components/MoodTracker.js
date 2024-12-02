@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Smile, Meh, Frown, Sun, Cloud, CloudRain, Moon, X, Undo, Tag, Trash2 } from 'lucide-react';
+import { Smile, Meh, Frown, Sun, Cloud, CloudRain, Moon, Undo, Trash2 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 const MoodTracker = () => {
   const [entries, setEntries] = useState([]);
-  const [currentEntry, setCurrentEntry] = useState({ mood: null, time: null, activities: [], note: '' });
+  const [currentEntry, setCurrentEntry] = useState({ mood: null, time: null, activities: [] });
   const [undoStack, setUndoStack] = useState([]);
   const [weather, setWeather] = useState({ temp: null, condition: null });
   
@@ -32,7 +32,6 @@ const MoodTracker = () => {
     { label: 'Study', color: 'bg-red-500' }
   ];
 
-  // Load entries from localStorage on mount
   useEffect(() => {
     const savedEntries = localStorage.getItem('moodEntries');
     if (savedEntries) {
@@ -43,14 +42,11 @@ const MoodTracker = () => {
     }
   }, []);
 
-  // Save entries to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem('moodEntries', JSON.stringify(entries));
   }, [entries]);
 
-  // Simulated weather data fetch
   useEffect(() => {
-    // In a real app, you'd fetch from a weather API
     setWeather({ temp: '72°F', condition: 'Sunny' });
   }, []);
 
@@ -82,7 +78,7 @@ const MoodTracker = () => {
     };
     setEntries(prev => [newEntry, ...prev]);
     setUndoStack(prev => [...prev, entries]);
-    setCurrentEntry({ mood: null, time: null, activities: [], note: '' });
+    setCurrentEntry({ mood: null, time: null, activities: [] });
   };
 
   const deleteEntry = (id) => {
@@ -100,7 +96,7 @@ const MoodTracker = () => {
 
   const getMoodStats = () => {
     const total = entries.length;
-    if (total === 0) return null;
+    if (total === 0) return [];
 
     const counts = entries.reduce((acc, entry) => {
       acc[entry.mood] = (acc[entry.mood] || 0) + 1;
@@ -134,11 +130,48 @@ const MoodTracker = () => {
             </div>
           </div>
         </CardHeader>
+
         <CardContent className="space-y-8 pt-6">
+          {/* Mood and Time Selection */}
           <div className="grid grid-cols-2 gap-6">
-            {/* Mood and Time sections remain the same */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-medium text-zinc-200">How are you feeling?</h3>
+              <div className="grid grid-cols-3 gap-4">
+                {moods.map(({ icon: Icon, label, color, ringColor }) => (
+                  <button
+                    key={label}
+                    onClick={() => handleMoodSelect(label)}
+                    className={`flex flex-col items-center p-4 rounded-xl transition-all bg-zinc-800 hover:bg-zinc-700 ${
+                      currentEntry.mood === label ? `ring-2 ring-offset-2 ring-offset-zinc-900 ${ringColor}` : ''
+                    }`}
+                  >
+                    <Icon size={32} className={`mb-2 ${color}`} />
+                    <span className={`text-sm font-medium ${color}`}>{label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-xl font-medium text-zinc-200">What time is it?</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {times.map(({ icon: Icon, label, color, ringColor }) => (
+                  <button
+                    key={label}
+                    onClick={() => handleTimeSelect(label)}
+                    className={`flex flex-col items-center p-4 rounded-xl transition-all bg-zinc-800 hover:bg-zinc-700 ${
+                      currentEntry.time === label ? `ring-2 ring-offset-2 ring-offset-zinc-900 ${ringColor}` : ''
+                    }`}
+                  >
+                    <Icon size={24} className={`mb-2 ${color}`} />
+                    <span className={`text-sm font-medium ${color}`}>{label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
 
+          {/* Activities */}
           <div className="space-y-4">
             <h3 className="text-xl font-medium text-zinc-200">Activities</h3>
             <div className="flex flex-wrap gap-2">
@@ -158,14 +191,15 @@ const MoodTracker = () => {
             </div>
           </div>
 
+          {/* Mood Stats */}
           {entries.length > 0 && (
             <div className="space-y-4">
               <h3 className="text-xl font-medium text-zinc-200">Mood Distribution</h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={getMoodStats()}>
-                    <XAxis dataKey="mood" />
-                    <YAxis />
+                    <XAxis dataKey="mood" stroke="#ffffff" />
+                    <YAxis stroke="#ffffff" />
                     <Tooltip />
                     <Bar dataKey="percentage" fill="#8884d8" />
                   </BarChart>
@@ -174,6 +208,7 @@ const MoodTracker = () => {
             </div>
           )}
 
+          {/* Recent Entries */}
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <h3 className="text-xl font-medium text-zinc-200">Recent Entries</h3>
