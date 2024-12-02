@@ -9,16 +9,16 @@ const MoodTracker = () => {
   const [currentEntry, setCurrentEntry] = useState({ mood: null, time: null });
   
   const moods = [
-    { icon: Smile, label: 'Happy', color: 'text-green-500' },
-    { icon: Meh, label: 'Neutral', color: 'text-yellow-500' },
-    { icon: Frown, label: 'Sad', color: 'text-blue-500' }
+    { icon: Smile, label: 'Happy', color: 'text-green-500', ringColor: 'ring-green-500' },
+    { icon: Meh, label: 'Neutral', color: 'text-yellow-500', ringColor: 'ring-yellow-500' },
+    { icon: Frown, label: 'Sad', color: 'text-blue-500', ringColor: 'ring-blue-500' }
   ];
   
   const times = [
-    { icon: Sun, label: 'Morning', color: 'text-orange-500' },
-    { icon: Cloud, label: 'Afternoon', color: 'text-gray-500' },
-    { icon: CloudRain, label: 'Evening', color: 'text-blue-400' },
-    { icon: Moon, label: 'Night', color: 'text-purple-500' }
+    { icon: Sun, label: 'Morning', color: 'text-orange-500', ringColor: 'ring-orange-500' },
+    { icon: Cloud, label: 'Afternoon', color: 'text-gray-500', ringColor: 'ring-gray-500' },
+    { icon: CloudRain, label: 'Evening', color: 'text-blue-400', ringColor: 'ring-blue-400' },
+    { icon: Moon, label: 'Night', color: 'text-purple-500', ringColor: 'ring-purple-500' }
   ];
 
   const handleMoodSelect = (mood) => {
@@ -60,13 +60,13 @@ const MoodTracker = () => {
           <div className="space-y-4">
             <h3 className="text-xl font-medium text-zinc-200">How are you feeling?</h3>
             <div className="grid grid-cols-3 gap-4">
-              {moods.map(({ icon: Icon, label, color }) => (
+              {moods.map(({ icon: Icon, label, color, ringColor }) => (
                 <button
                   key={label}
                   onClick={() => handleMoodSelect(label)}
-                  className={`flex flex-col items-center p-4 rounded-xl transition-all 
-                    ${currentEntry.mood === label ? 'ring-2 ring-offset-2 ring-offset-zinc-900 ring-' + color.split('-')[1]} 
-                    bg-zinc-800 hover:bg-zinc-700`}
+                  className={`flex flex-col items-center p-4 rounded-xl transition-all bg-zinc-800 hover:bg-zinc-700 ${
+                    currentEntry.mood === label ? `ring-2 ring-offset-2 ring-offset-zinc-900 ${ringColor}` : ''
+                  }`}
                 >
                   <Icon size={32} className={`mb-2 ${color}`} />
                   <span className={`text-sm font-medium ${color}`}>{label}</span>
@@ -77,13 +77,13 @@ const MoodTracker = () => {
           <div className="space-y-4">
             <h3 className="text-xl font-medium text-zinc-200">What time is it?</h3>
             <div className="grid grid-cols-2 gap-4">
-              {times.map(({ icon: Icon, label, color }) => (
+              {times.map(({ icon: Icon, label, color, ringColor }) => (
                 <button
                   key={label}
                   onClick={() => handleTimeSelect(label)}
-                  className={`flex flex-col items-center p-4 rounded-xl transition-all
-                    ${currentEntry.time === label ? 'ring-2 ring-offset-2 ring-offset-zinc-900 ring-' + color.split('-')[1]} 
-                    bg-zinc-800 hover:bg-zinc-700`}
+                  className={`flex flex-col items-center p-4 rounded-xl transition-all bg-zinc-800 hover:bg-zinc-700 ${
+                    currentEntry.time === label ? `ring-2 ring-offset-2 ring-offset-zinc-900 ${ringColor}` : ''
+                  }`}
                 >
                   <Icon size={24} className={`mb-2 ${color}`} />
                   <span className={`text-sm font-medium ${color}`}>{label}</span>
