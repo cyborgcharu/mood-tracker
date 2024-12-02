@@ -121,14 +121,10 @@ const MoodTracker = () => {
     <div className="space-y-6 w-full max-w-4xl mx-auto p-4">
       <Card className="bg-zinc-900 text-white border-zinc-800">
         <CardHeader className="border-b border-zinc-800">
-          <div className="flex justify-between items-center">
-            <CardTitle className="text-3xl font-bold">Daily Mood Tracker</CardTitle>
-            <div className="flex items-center space-x-2 text-sm text-zinc-400">
-              <span>{weather.temp}</span>
-              <span>•</span>
-              <span>{weather.condition}</span>
+            <div className="flex justify-between items-center">
+                <CardTitle className="text-3xl font-bold">Daily Mood Tracker</CardTitle>
+                <WeatherDisplay />
             </div>
-          </div>
         </CardHeader>
 
         <CardContent className="space-y-8 pt-6">
